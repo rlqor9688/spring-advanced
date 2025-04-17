@@ -12,6 +12,7 @@ public class UserChangePasswordRequest {
 
     @NotBlank
     private String oldPassword;
+
     @NotBlank
     private String newPassword;
 }

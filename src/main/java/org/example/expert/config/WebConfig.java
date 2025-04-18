@@ -14,18 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final AdminCheckInterceptor adminCheckInterceptor;
+    private final AuthUserArgumentResolver authUserArgumentResolver;
 
     // ArgumentResolver 등록
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new AuthUserArgumentResolver());
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(adminCheckInterceptor)
-                .addPathPatterns("/admin/users/*")
-                .addPathPatterns("/admin/comments/*");
+        resolvers.add(authUserArgumentResolver);
     }
 }

@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.expert.common.annotation.AdminLog;
+import org.example.expert.domain.common.annotation.Auth;
+import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.user.dto.request.UserRoleChangeRequest;
 import org.example.expert.domain.user.enums.UserRole;
 import org.example.expert.domain.user.service.UserAdminService;
@@ -23,13 +25,9 @@ public class UserAdminController {
     @PatchMapping("/admin/users/{userId}")
     public void changeUserRole(@PathVariable long userId,
                                @RequestBody UserRoleChangeRequest userRoleChangeRequest,
-                               HttpServletRequest request)
+                               @Auth AuthUser authUser)
     {
-        Long requesterId = (Long) request.getAttribute("userId");
-        String email = (String) request.getAttribute("userEmail");
-        UserRole role = (UserRole) request.getAttribute("userRole");
-
-        log.info("관리자 요청자 ID: {}, 이메일: {}, 역할: {}", requesterId, email, role);
+        log.info("관리자 요청자 ID: {}, 이메일: {}, 역할: {}", authUser.getId(), authUser.getEmail(), authUser.getUserRole());
 
         userAdminService.changeUserRole(userId, userRoleChangeRequest);
     }

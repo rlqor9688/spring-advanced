@@ -62,4 +62,29 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    public Long getUserId(String token) {
+        Claims claims = extractClaims(token);
+        return Long.valueOf(claims.getSubject());
+    }
+
+    public String getUserEmail(String token) {
+        Claims claims = extractClaims(token);
+        return claims.get("email", String.class);
+    }
+
+    public UserRole getUserRole(String token) {
+        Claims claims = extractClaims(token);
+        String roleString = claims.get("userRole", String.class);
+
+        if (roleString == null) {
+            throw new ServerException("권한 정보가 없습니다.");
+        }
+
+        try {
+            return UserRole.valueOf(roleString);
+        } catch (IllegalArgumentException e) {
+            throw new ServerException("유효하지 않은 사용자 권한입니다.");
+        }
+    }
 }

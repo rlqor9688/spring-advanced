@@ -3,6 +3,7 @@ package org.example.expert.domain.comment.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.expert.common.annotation.AdminLog;
 import org.example.expert.domain.comment.service.CommentAdminService;
 import org.example.expert.domain.user.enums.UserRole;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ public class CommentAdminController {
 
     private final CommentAdminService commentAdminService;
 
+    @AdminLog("게시글 삭제")
     @DeleteMapping("/admin/comments/{commentId}")
     public void deleteComment(@PathVariable long commentId, HttpServletRequest request) {
         Long requesterId = (Long) request.getAttribute("userId");

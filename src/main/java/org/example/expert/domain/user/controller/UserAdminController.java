@@ -3,6 +3,7 @@ package org.example.expert.domain.user.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.expert.common.annotation.AdminLog;
 import org.example.expert.domain.user.dto.request.UserRoleChangeRequest;
 import org.example.expert.domain.user.enums.UserRole;
 import org.example.expert.domain.user.service.UserAdminService;
@@ -18,6 +19,7 @@ public class UserAdminController {
 
     private final UserAdminService userAdminService;
 
+    @AdminLog("유저 권한 변경")
     @PatchMapping("/admin/users/{userId}")
     public void changeUserRole(@PathVariable long userId,
                                @RequestBody UserRoleChangeRequest userRoleChangeRequest,
